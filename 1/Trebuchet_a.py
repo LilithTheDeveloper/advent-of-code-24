@@ -10,9 +10,9 @@ input = input()
 
 def first_and_last_digit(line):
     digits = []
-    for c in line:
-        if(c.isdigit()):
-            digits.append(c)
+    for character in line:
+        if(character.isdigit()):
+            digits.append(character)
     if(len(digits) == 0):
         return 0
     combine = digits[0] + digits[-1] if len(digits) > 1 else digits[0] + digits[0]
@@ -24,3 +24,6 @@ def main():
     print(sum)
 
 main()
+
+
+

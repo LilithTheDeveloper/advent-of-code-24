@@ -134,21 +134,22 @@ print("Length: " + str(len(input)))
 print("Valid gears: " + str(len(valid_gears)))
 print("Sum: " + str(sum(valid_gears)))
 
-# gear_set = set(valid_gears)
+gear_set = set(valid_gears)
 #
 ## highlight all nubmers
 #
-# new_lines = []
+new_lines = []
 
-# import re
-# for line in input:
-#     for number in gear_set:
-#         pos = line.find(str(number))
-#         pattern = re.compile(rf'\b{number}\b')
-#         line = pattern.sub(f"{Colors.GREEN}{number}{Colors.RESET}", line)
-#     new_lines.append(line)
+import re
+for line in input:
+    for number in gear_set:
+        pos = line.find(str(number))
+        pattern = re.compile(rf'\b{number}\b')
+        line = pattern.sub(f"{Colors.GREEN}{number}{Colors.RESET}", line)
+    new_lines.append(line)
+
 #
-# print_gears(new_lines, len(new_lines))
+print_gears(new_lines, len(new_lines))
 
 # print("Valid gears: " + str(valid_gears))
 # sum = sum(valid_gears)
