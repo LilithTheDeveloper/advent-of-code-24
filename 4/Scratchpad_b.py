@@ -30,29 +30,6 @@ def get_prefix(card):
     prefix = prefix[1]
     return prefix
 
-# def card_copier(cards):
-#     cards_copied = [] 
-#     total_wins = 0
-
-#     for i in range(0, len(cards)):
-#         prefix = int(get_prefix(cards[i]))
-#         first = True
-#         while(first or prefix in cards_copied):
-#             wins = split_card(i, cards[i])
-#             if(wins == 0):
-#                 cards = [x for x in cards if x != prefix]
-#                 break
-#             total_wins += wins
-#             cards_copied.extend([prefix+j for j in range(1, wins)])
-#             first = False
-#             if(prefix in cards_copied):
-#                 cards_copied.remove(prefix)
-
-#     print(f"Total wins: {total_wins}")
-#     return cards_copied
-
-# card_copier(cards)
-
 winners = []
 stored_cards = [1 for i in range(0, len(cards))]
 
@@ -65,6 +42,5 @@ for i in range(0, len(winners)):
         current_card_amount = stored_cards[i]
         stored_cards[i+j] += current_card_amount
         cards_copied.append(i+j+1)
-    # print(f"Card {i+1} has won the cards {cards_copied}. (Winning numbers: {winners[i]})")
 
 print(sum(stored_cards))
