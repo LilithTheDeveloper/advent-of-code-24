@@ -14,6 +14,8 @@ DEST_END='DEST_END'
 SRC_START='SRC_START'
 SRC_END='SRC_END'
 RANGE='RANGE'
+START='START'
+END='END'
 
 
 def get_map_index(fields, map_name):
@@ -59,30 +61,36 @@ humidity_to_location = categorize_maps(get_maps(fields, 'humidity-to-location ma
 
 seeds = list(map(lambda x: int(x), fields[0].split(' ')[1:]))
 
-def sort_seeds_into_ranges(seeds):
-    table = pt.PrettyTable()
-    table.field_names = ["Seed Range Start", "Seed Range End", "Seed Range Size"]
-    seed_map = {}
+def categorize_seeds(seeds):
+    categorized_seeds = []
     for i in range(0, len(seeds)-1, 2):
-        seed_start = seeds[i]
+        categorized_seed = {}
+        start = seeds[i]
         rng = seeds[i+1]
-        seed_end = seed_start + rng - 1
-        
-        table.add_row([seed_start, seed_end, rng], divider=True)
-        
-        seed_map.update({seed_start: rng})
-    table.sortby = "Seed Range Start"
-    seed_map = dict(sorted(seed_map.items()))
-    print(table)
-    return seed_map 
+        end = start + rng - 1
+        categorized_seed.update(START=start)
+        categorized_seed.update(END=end)
+        categorized_seed.update(RANGE=rng)
+        categorized_seeds.append(categorized_seed)
+    return categorized_seeds
 
-seed_map = sort_seeds_into_ranges(seeds)
+seed_ranges = categorize_seeds(seeds)
 
-def get_seed_range(seed, seed_map):
-    for seed_start, rng in seed_map.items():
-        if(seed >= seed_start and seed <= seed_start + rng - 1):
-            return seed_start, seed_start + rng - 1
-    return None, None
+def get_seed_src_range(start, end, seed_to_soil_map):
+    for map in seed_to_soil_map:
+        src_start = map.get(SRC_START)
+        src_end = map.get(SRC_END)
+        print(start, end, src_start, src_end)
+        if(start >= src_start and end <= src_end):
+            return map
+    print(f"No map found for seed range {start} -> {end}")
+    return None
+
+seed_to_soil_ranges = []
+for map in seed_ranges:
+    ranges = get_seed_src_range(map.get(START), map.get(END), seed_to_soil)
+    seed_to_soil.append(ranges)
+
 
 # def select_map(source, maps):
 #     for map in maps:
@@ -96,13 +104,15 @@ def get_seed_range(seed, seed_map):
 # Any source numbers that aren't mapped correspond to the same destination number. 
 # So, seed number 10 corresponds to soil number 10.
 
+def get_dest(src_x)
+
 # def get_dest(source, map):
 #     src_start = map.get(SRC_START)
 #     dest_start = map.get(DEST_START)
 #     diff = source - src_start
 #     dest = dest_start + diff
 #     return dest
-#
+
 # def map_src_to_dst(source, map):
 #     if(map == None):
 #         return source
